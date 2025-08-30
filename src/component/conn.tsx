@@ -1,50 +1,54 @@
-import { sepolia, mainnet, type Chain } from "@starknet-react/chains";
+import { mainnet, type Chain } from "@starknet-react/chains";
 import {
-  StarknetConfig,
+  Connector,
   jsonRpcProvider,
+  StarknetConfig,
   starkscan,
 } from "@starknet-react/core";
 import ControllerConnector from "@cartridge/connector/controller";
+import { SessionPolicies } from "@cartridge/controller";
+import { constants } from "starknet";
 
-const ETH_TOKEN_ADDRESS =
-  "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7";
+export const CARTRIDGE_ADDRESS =
+  "0x051fea4450da9d6aee758bdeba88b2f665bcbf549d2c61421aa724e9ac0ced8f";
+export const LOTTO_ADDRESS =
+  "0x013426dc6703de08428b470b92e1d0350894b32eb74fb9efaea69bae31023628";
 
 // Define session policies
-const policies = {
+const policies: SessionPolicies = {
   contracts: {
-    [ETH_TOKEN_ADDRESS]: {
+    [CARTRIDGE_ADDRESS]: {
       methods: [
         {
-          name: "approve",
-          entrypoint: "approve",
-          description: "Approve spending of tokens",
+          name: "request_random",
+          entrypoint: "request_random",
+          description: "Request randomness from cartridge vrf",
         },
-        { name: "transfer", entrypoint: "transfer" },
+      ],
+    },
+    [LOTTO_ADDRESS]: {
+      methods: [
+        {
+          name: "double_spin",
+          entrypoint: "double_spin",
+          description: "Spin",
+        },
       ],
     },
   },
 };
 
-// Initialize the connector
 const connector = new ControllerConnector({
   policies,
-  // With the defaults, you can omit chains if you want to use:
-  // - chains: [
-  //     { rpcUrl: "https://api.cartridge.gg/x/starknet/sepolia" },
-  //     { rpcUrl: "https://api.cartridge.gg/x/starknet/mainnet" },
-  //   ]
-});
+  defaultChainId: constants.StarknetChainId.SN_MAIN,
+  chains: [{ rpcUrl: "https://api.cartridge.gg/x/starknet/mainnet" }],
+  namespace: "spining",
+  slot: "spining",
+}) as never as Connector;
 
-// Configure RPC provider
 const provider = jsonRpcProvider({
-  rpc: (chain: Chain) => {
-    switch (chain) {
-      case mainnet:
-        return { nodeUrl: "https://api.cartridge.gg/x/starknet/mainnet" };
-      case sepolia:
-      default:
-        return { nodeUrl: "https://api.cartridge.gg/x/starknet/sepolia" };
-    }
+  rpc: (_: Chain) => {
+    return { nodeUrl: "https://api.cartridge.gg/x/starknet/mainnet" };
   },
 });
 
@@ -53,7 +57,7 @@ export function StarknetProvider({ children }: { children: React.ReactNode }) {
     <StarknetConfig
       autoConnect
       defaultChainId={mainnet.id}
-      chains={[mainnet, sepolia]}
+      chains={[mainnet]}
       provider={provider}
       connectors={[connector]}
       explorer={starkscan}

@@ -2,11 +2,12 @@ import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
 import { useEffect, useState } from "react";
 import ControllerConnector from "@cartridge/connector/controller";
 import { Button } from "@cartridge/ui";
+import { constants } from "starknet";
 
 export function ConnectWallet() {
   const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
-  const { address } = useAccount();
+  const { address, chainId } = useAccount();
   const controller = connectors[0] as ControllerConnector;
   const [username, setUsername] = useState<string>();
 
@@ -19,7 +20,10 @@ export function ConnectWallet() {
     <div>
       {address && (
         <>
-          <p>Account: {address}</p>
+          <p>
+            Account: {address} {chainId}{" "}
+            {BigInt(constants.StarknetChainId.SN_MAIN)}
+          </p>
           {username && <p>Username: {username}</p>}
         </>
       )}
