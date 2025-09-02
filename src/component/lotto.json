@@ -1,0 +1,436 @@
+[
+  {
+    "type": "impl",
+    "name": "UpgradeableImpl",
+    "interface_name": "lotto::interface::IUpgradeable"
+  },
+  {
+    "type": "interface",
+    "name": "lotto::interface::IUpgradeable",
+    "items": [
+      {
+        "type": "function",
+        "name": "upgrade",
+        "inputs": [
+          {
+            "name": "new_class_hash",
+            "type": "core::starknet::class_hash::ClassHash"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "get_implementation",
+        "inputs": [],
+        "outputs": [{ "type": "core::starknet::class_hash::ClassHash" }],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "get_version",
+        "inputs": [],
+        "outputs": [{ "type": "core::integer::u32" }],
+        "state_mutability": "view"
+      }
+    ]
+  },
+  {
+    "type": "impl",
+    "name": "AkiLottoDrawerImpl",
+    "interface_name": "lotto::interface::IAkiLottoDrawer"
+  },
+  {
+    "type": "enum",
+    "name": "core::bool",
+    "variants": [
+      { "name": "False", "type": "()" },
+      { "name": "True", "type": "()" }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "core::integer::u256",
+    "members": [
+      { "name": "low", "type": "core::integer::u128" },
+      { "name": "high", "type": "core::integer::u128" }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "lotto::types::UserInfo",
+    "members": [
+      { "name": "tickets", "type": "core::integer::u256" },
+      { "name": "is_connected", "type": "core::bool" },
+      { "name": "has_spinned", "type": "core::bool" }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "lotto::types::UserTickets",
+    "members": [
+      {
+        "name": "user",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      { "name": "tickets", "type": "core::integer::u256" }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "lotto::types::DoubleOrNothingConfig",
+    "members": [
+      { "name": "start", "type": "core::integer::u64" },
+      { "name": "end", "type": "core::integer::u64" }
+    ]
+  },
+  {
+    "type": "interface",
+    "name": "lotto::interface::IAkiLottoDrawer",
+    "items": [
+      {
+        "type": "function",
+        "name": "add_wallet",
+        "inputs": [],
+        "outputs": [{ "type": "core::bool" }],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "get_user_info",
+        "inputs": [
+          {
+            "name": "user",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "outputs": [{ "type": "lotto::types::UserInfo" }],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "add_tickets",
+        "inputs": [
+          {
+            "name": "user",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          { "name": "tickets", "type": "core::integer::u256" }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "add_tickets_batch",
+        "inputs": [
+          {
+            "name": "user_tickets",
+            "type": "core::array::Array::<lotto::types::UserTickets>"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "remove_tickets",
+        "inputs": [
+          {
+            "name": "user",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          { "name": "tickets", "type": "core::integer::u256" }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "remove_tickets_batch",
+        "inputs": [
+          {
+            "name": "user_tickets",
+            "type": "core::array::Array::<lotto::types::UserTickets>"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "get_total_tickets",
+        "inputs": [],
+        "outputs": [{ "type": "core::integer::u256" }],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "draw",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "(core::starknet::contract_address::ContractAddress, core::integer::u256)"
+          }
+        ],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "set_double_or_nothing_interval",
+        "inputs": [
+          { "name": "start", "type": "core::integer::u64" },
+          { "name": "end", "type": "core::integer::u64" }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "is_double_active",
+        "inputs": [],
+        "outputs": [{ "type": "core::bool" }],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "get_double_interval",
+        "inputs": [],
+        "outputs": [{ "type": "lotto::types::DoubleOrNothingConfig" }],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "double_spin",
+        "inputs": [],
+        "outputs": [{ "type": "core::bool" }],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "set_randomness_caller",
+        "inputs": [
+          {
+            "name": "random_caller",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "get_randomness_caller",
+        "inputs": [
+          {
+            "name": "user",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "outputs": [
+          { "type": "core::starknet::contract_address::ContractAddress" }
+        ],
+        "state_mutability": "view"
+      }
+    ]
+  },
+  {
+    "type": "impl",
+    "name": "CartridgeVRFOracle",
+    "interface_name": "lotto::interface::ICartridgeVRF"
+  },
+  {
+    "type": "interface",
+    "name": "lotto::interface::ICartridgeVRF",
+    "items": [
+      {
+        "type": "function",
+        "name": "set_vrf_provider",
+        "inputs": [
+          {
+            "name": "new_vrf_provider",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "get_vrf_provider",
+        "inputs": [],
+        "outputs": [
+          { "type": "core::starknet::contract_address::ContractAddress" }
+        ],
+        "state_mutability": "view"
+      }
+    ]
+  },
+  {
+    "type": "constructor",
+    "name": "constructor",
+    "inputs": [
+      {
+        "name": "owner",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "vrf_contract_address",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      { "name": "impl_hash", "type": "core::starknet::class_hash::ClassHash" }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "set_owner",
+    "inputs": [
+      {
+        "name": "owner",
+        "type": "core::starknet::contract_address::ContractAddress"
+      }
+    ],
+    "outputs": [],
+    "state_mutability": "external"
+  },
+  {
+    "type": "function",
+    "name": "get_owner",
+    "inputs": [],
+    "outputs": [
+      { "type": "core::starknet::contract_address::ContractAddress" }
+    ],
+    "state_mutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "set_draw_caller",
+    "inputs": [
+      {
+        "name": "caller",
+        "type": "core::starknet::contract_address::ContractAddress"
+      }
+    ],
+    "outputs": [],
+    "state_mutability": "external"
+  },
+  {
+    "type": "function",
+    "name": "get_draw_caller",
+    "inputs": [],
+    "outputs": [
+      { "type": "core::starknet::contract_address::ContractAddress" }
+    ],
+    "state_mutability": "view"
+  },
+  {
+    "type": "event",
+    "name": "lotto::events::DoubleOrNothingEvent",
+    "kind": "struct",
+    "members": [
+      {
+        "name": "user",
+        "type": "core::starknet::contract_address::ContractAddress",
+        "kind": "data"
+      },
+      { "name": "tickets", "type": "core::integer::u256", "kind": "data" },
+      { "name": "won", "type": "core::bool", "kind": "data" },
+      { "name": "random_word", "type": "core::felt252", "kind": "data" }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "lotto::events::DrawEvent",
+    "kind": "struct",
+    "members": [
+      {
+        "name": "winner",
+        "type": "core::starknet::contract_address::ContractAddress",
+        "kind": "data"
+      },
+      { "name": "tickets", "type": "core::integer::u256", "kind": "data" }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "lotto::events::UserConnectEvent",
+    "kind": "struct",
+    "members": [
+      {
+        "name": "user",
+        "type": "core::starknet::contract_address::ContractAddress",
+        "kind": "data"
+      },
+      { "name": "tickets", "type": "core::integer::u256", "kind": "data" },
+      { "name": "has_spinned", "type": "core::bool", "kind": "data" }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "lotto::events::UpgradeEvent",
+    "kind": "struct",
+    "members": [
+      {
+        "name": "old_class_hash",
+        "type": "core::starknet::class_hash::ClassHash",
+        "kind": "data"
+      },
+      {
+        "name": "new_class_hash",
+        "type": "core::starknet::class_hash::ClassHash",
+        "kind": "data"
+      },
+      { "name": "version", "type": "core::integer::u32", "kind": "data" }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "lotto::events::RandomnessCallerEvent",
+    "kind": "struct",
+    "members": [
+      {
+        "name": "user",
+        "type": "core::starknet::contract_address::ContractAddress",
+        "kind": "data"
+      },
+      {
+        "name": "caller",
+        "type": "core::starknet::contract_address::ContractAddress",
+        "kind": "data"
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "lotto::Drawer::AkiLottoDrawer::Event",
+    "kind": "enum",
+    "variants": [
+      {
+        "name": "DoubleOrNothingEvent",
+        "type": "lotto::events::DoubleOrNothingEvent",
+        "kind": "nested"
+      },
+      {
+        "name": "DrawEvent",
+        "type": "lotto::events::DrawEvent",
+        "kind": "nested"
+      },
+      {
+        "name": "UserConnectEvent",
+        "type": "lotto::events::UserConnectEvent",
+        "kind": "nested"
+      },
+      {
+        "name": "UpgradeEvent",
+        "type": "lotto::events::UpgradeEvent",
+        "kind": "nested"
+      },
+      {
+        "name": "RandomnessCallerEvent",
+        "type": "lotto::events::RandomnessCallerEvent",
+        "kind": "nested"
+      }
+    ]
+  }
+]

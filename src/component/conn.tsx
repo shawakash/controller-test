@@ -1,9 +1,9 @@
-import { mainnet, type Chain } from "@starknet-react/chains";
+import { mainnet } from "@starknet-react/chains";
 import {
   Connector,
   jsonRpcProvider,
   StarknetConfig,
-  starkscan,
+  voyager,
 } from "@starknet-react/core";
 import ControllerConnector from "@cartridge/connector/controller";
 import { SessionPolicies } from "@cartridge/controller";
@@ -47,7 +47,7 @@ const connector = new ControllerConnector({
 }) as never as Connector;
 
 const provider = jsonRpcProvider({
-  rpc: (_: Chain) => {
+  rpc: () => {
     return { nodeUrl: "https://api.cartridge.gg/x/starknet/mainnet" };
   },
 });
@@ -60,7 +60,7 @@ export function StarknetProvider({ children }: { children: React.ReactNode }) {
       chains={[mainnet]}
       provider={provider}
       connectors={[connector]}
-      explorer={starkscan}
+      explorer={voyager}
     >
       {children}
     </StarknetConfig>

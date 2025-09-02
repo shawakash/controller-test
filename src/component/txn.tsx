@@ -20,10 +20,7 @@ export const ExecuteTxn = () => {
           entrypoint: "request_random",
           calldata: CallData.compile({
             caller: LOTTO_ADDRESS,
-            // Using Source::Nonce(address)
             source: { type: 0, address: account.address },
-            // Using Source::Salt(felt252)
-            // source: {type: 1, salt: 0x123}
           }),
         },
         {
